@@ -5,106 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>17 Anos da Alinne 🍓</title>
     <style>
-        :root {
-            --vermelho: #ff3333;
-            --azul: #003399;
-        }
+        :root { --vermelho: #ff3333; --azul: #003399; }
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            font-family: 'Segoe UI', sans-serif;
-            overflow: hidden;
+            font-family: 'Segoe UI', sans-serif; overflow: hidden;
             background: linear-gradient(135deg, var(--azul), var(--vermelho));
         }
 
-        /* Chuva de Morangos */
+        /* Morangos Voando */
         .strawberry {
-            position: absolute;
-            font-size: 25px;
-            pointer-events: none;
-            z-index: 1;
-            animation: fall linear infinite;
+            position: absolute; font-size: 25px; pointer-events: none;
+            z-index: 100; animation: fall linear infinite;
         }
         @keyframes fall {
             0% { transform: translateY(-10vh) rotate(0deg); }
             100% { transform: translateY(110vh) rotate(360deg); }
         }
 
-        #main-container {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-            color: white;
+        /* Tela de Início (Arrastar) */
+        #drag-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 200; display: flex;
+            flex-direction: column; justify-content: center; align-items: center;
+            color: white; transition: transform 0.8s ease;
+        }
+        .arrow-up { font-size: 50px; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-20px);} 60% {transform: translateY(-10px);} }
+
+        /* Container de Conteúdo */
+        #main-content {
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; height: 100vh; text-align: center; color: white;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            padding: 30px;
-            border-radius: 20px;
-            width: 85%;
-            max-width: 400px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px);
+            padding: 25px; border-radius: 20px; width: 85%; max-width: 350px;
+            z-index: 10; border: 1px solid rgba(255,255,255,0.2);
         }
 
         .btn-option {
-            background: white;
-            color: var(--azul);
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 15px;
-            margin: 8px 0;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            transition: 0.3s;
+            background: white; color: var(--azul); border: none;
+            padding: 12px; border-radius: 10px; font-size: 15px;
+            margin: 8px 0; cursor: pointer; width: 100%; font-weight: bold;
         }
 
-        /* Raspadinha */
-        #scratch-section { display: none; flex-direction: column; align-items: center; }
-        #scratch-container {
-            position: relative;
-            width: 300px;
-            height: 400px;
-            margin-top: 20px;
-            border: 5px solid white;
-            border-radius: 15px;
-            overflow: hidden;
+        /* Galeria de Fotos */
+        .gallery {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 10px; margin-top: 20px; padding: 10px;
+            max-height: 200px; overflow-y: auto;
         }
-        canvas {
-            position: absolute;
-            top: 0; left: 0;
-            z-index: 2;
-            touch-action: none;
-        }
-        #video-content {
-            width: 100%;
-            height: 100%;
-            background: black;
-        }
-        .hidden { display: none; }
+        .gallery img { width: 100%; border-radius: 10px; border: 2px solid white; }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div id="main-container">
-        <div id="quiz-section" class="card">
-            <h2 id="question-text">Carregando...</h2>
+    <div id="drag-screen">
+        <h1 style="font-size: 3rem; letter-spacing: 5px;">ALINNE</h1>
+        <div class="arrow-up">▲</div>
+        <p>Arraste para cima</p>
+    </div>
+
+    <div id="main-content">
+        <div id="quiz-section" class="card hidden">
+            <h2 id="question-text">Pergunta 1</h2>
             <div id="options-container"></div>
         </div>
 
-        <div id="scratch-section">
-            <h2 style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Raspe seu presente, Alinne! 🍓</h2>
-            <div id="scratch-container">
-                <div id="video-content">
-                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/6JG20Tt2DAQ?autoplay=1&mute=1&controls=0&loop=1&playlist=6JG20Tt2DAQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div id="surprise-section" class="hidden" style="z-index: 10;">
+            <div id="scratch-container" style="position: relative; width: 300px; height: 400px; border: 4px solid white; border-radius: 15px; overflow: hidden;">
+                <div id="final-content" style="width: 100%; height: 100%; background: #000;">
+                    <iframe width="100%" height="50%" src="https://www.youtube.com/embed/6JG20Tt2DAQ?enablejsapi=1" frameborder="0"></iframe>
+                    <div class="gallery">
+                        <img src="LINK_DA_FOTO_1" alt="Foto 1">
+                        <img src="LINK_DA_FOTO_2" alt="Foto 2">
+                        <img src="LINK_DA_FOTO_3" alt="Foto 3">
+                        <img src="LINK_DA_FOTO_4" alt="Foto 4">
+                    </div>
                 </div>
-                <canvas id="scratch-canvas" width="300" height="400"></canvas>
+                <canvas id="scratch-canvas" width="300" height="400" style="position: absolute; top:0; left:0;"></canvas>
             </div>
         </div>
     </div>
@@ -112,7 +94,8 @@
     <iframe id="audio-player" width="0" height="0" src="https://www.youtube.com/embed/Vmjav3dZcNQ?enablejsapi=1" frameborder="0"></iframe>
 
     <script>
-        function createStrawberry() {
+        // Morangos Voando (Desde o início)
+        setInterval(() => {
             const s = document.createElement('div');
             s.className = 'strawberry';
             s.innerHTML = '🍓';
@@ -120,13 +103,26 @@
             s.style.animationDuration = (Math.random() * 3 + 2) + 's';
             document.body.appendChild(s);
             setTimeout(() => s.remove(), 5000);
-        }
-        setInterval(createStrawberry, 400);
+        }, 400);
 
+        // Lógica de Arrastar (Mobile)
+        let startY;
+        const dragScreen = document.getElementById('drag-screen');
+        
+        dragScreen.addEventListener('touchstart', e => startY = e.touches[0].pageY);
+        dragScreen.addEventListener('touchmove', e => {
+            let moveY = e.touches[0].pageY;
+            if (startY - moveY > 100) {
+                dragScreen.style.transform = 'translateY(-100%)';
+                document.getElementById('quiz-section').classList.remove('hidden');
+            }
+        });
+
+        // Quiz
         const quizData = [
             {
-                q: "Como começamos a nos falar?",
-                options: ["Na escola", "Eu esbarrei em você sem querer", "Pelo Instagram"],
+                q: "Qual detalhe do nosso primeiro contato na escola foi inesquecível?",
+                options: ["Eu te dei um oi", "Eu esbarrei em você sem querer", "A gente sentou junto"],
                 correct: 1
             },
             {
@@ -155,26 +151,23 @@
                     if(index === data.correct) {
                         currentQ++;
                         if(currentQ < quizData.length) loadQuiz();
-                        else initScratch();
-                    } else { alert("🍓 Errou! Tenta de novo!"); }
+                        else startSurprise();
+                    } else { alert("🍓 Tenta de novo, Alinne!"); }
                 };
                 container.appendChild(btn);
             });
         }
         loadQuiz();
 
-        function initScratch() {
+        function startSurprise() {
             document.getElementById('quiz-section').classList.add('hidden');
-            document.getElementById('scratch-section').style.display = 'flex';
+            document.getElementById('surprise-section').classList.remove('hidden');
+            document.getElementById('audio-player').src += "&autoplay=1";
             
-            // Iniciar música do BK
-            const audio = document.getElementById('audio-player');
-            audio.src += "&autoplay=1";
-
             const canvas = document.getElementById('scratch-canvas');
             const ctx = canvas.getContext('2d');
             ctx.fillStyle = '#003399';
-            ctx.fillRect(0, 0, 300, 400);
+            ctx.fillRect(0,0,300,400);
             ctx.fillStyle = 'white';
             ctx.font = 'bold 20px sans-serif';
             ctx.fillText('RASPE AQUI 🍓', 80, 200);
@@ -186,18 +179,12 @@
                 const x = (e.clientX || e.touches[0].clientX) - rect.left;
                 const y = (e.clientY || e.touches[0].clientY) - rect.top;
                 ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath();
-                ctx.arc(x, y, 40, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(x, y, 40, 0, Math.PI * 2); ctx.fill();
             }
-            canvas.addEventListener('mousedown', () => isDrawing = true);
             canvas.addEventListener('touchstart', () => isDrawing = true);
-            window.addEventListener('mouseup', () => isDrawing = false);
-            window.addEventListener('touchend', () => isDrawing = false);
-            canvas.addEventListener('mousemove', scratch);
+            canvas.addEventListener('touchend', () => isDrawing = false);
             canvas.addEventListener('touchmove', scratch);
         }
     </script>
 </body>
-  </html>
-  
+</html>
