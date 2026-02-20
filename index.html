@@ -3,243 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>17 Anos da Alinne 🍓</title>
+    <title>Para Alinne 🍓</title>
     <style>
         :root { --vermelho: #ff4d4d; --verde: #2ecc71; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { 
+            width: 100%; height: 100%; 
+            background: radial-gradient(circle at center, #1B2735 0%, #000000 100%) !important;
+            color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden;
+        }
+
+        /* ESTRELAS E ELEMENTOS */
+        #star-container { position: fixed; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.6; animation: twinkle var(--d) infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
         
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            font-family: 'Segoe UI', sans-serif; overflow: hidden;
-            background: #000; color: white;
-        }
-
-        /* FUNDO ESTELAR */
-        #star-container {
-            position: fixed; width: 100%; height: 100%;
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-            z-index: 1;
-        }
-        .star {
-            position: absolute; background: white; border-radius: 50%;
-            opacity: 0.5; animation: twinkle var(--d) infinite;
-        }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
-
-        /* ELEMENTOS CAINDO */
-        .falling { position: absolute; pointer-events: none; z-index: 10; animation: fall linear infinite; }
+        .falling { position: absolute; pointer-events: none; z-index: 100; animation: fall linear infinite; }
         @keyframes fall {
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        /* TELA DE ENTRADA (Obrigatória para o som funcionar) */
-        #overlay-start {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 1000; display: flex; justify-content: center; align-items: center;
+        /* TELAS */
+        .tela { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; }
+        .hidden { display: none !important; }
+
+        /* NOME NEON */
+        .neon-title {
+            font-size: 4rem; color: #fff; font-weight: 900; letter-spacing: 5px;
+            text-shadow: 0 0 15px var(--vermelho), 0 0 30px var(--vermelho);
+            animation: pulse 2s infinite;
         }
+
+        /* BOTÕES */
         .btn-start {
             background: var(--vermelho); color: white; border: none; padding: 20px 40px;
             border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer;
-            box-shadow: 0 0 20px var(--vermelho); animation: pulse 1.5s infinite;
+            box-shadow: 0 0 20px var(--vermelho); z-index: 10000;
         }
 
-        /* TELA 1: NOME NEON */
-        .neon-title {
-            font-size: 4rem; color: #fff; text-align: center; font-weight: 900;
-            text-transform: uppercase; letter-spacing: 5px;
-            text-shadow: 0 0 10px var(--vermelho), 0 0 20px var(--vermelho), 0 0 40px var(--vermelho);
-            animation: pulseNeon 2s infinite; z-index: 20; position: relative;
-        }
-        @keyframes pulseNeon {
-            0%, 100% { text-shadow: 0 0 10px var(--vermelho), 0 0 20px var(--vermelho); transform: scale(1); }
-            50% { text-shadow: 0 0 20px var(--vermelho), 0 0 40px var(--vermelho); transform: scale(1.05); }
-        }
-
-        /* QUIZ E CARDS */
-        .card { 
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px);
-            padding: 30px; border-radius: 30px; width: 85%; max-width: 320px;
-            z-index: 20; border: 1px solid rgba(255,255,255,0.2); text-align: center;
-        }
-        .btn-option { 
-            background: white; color: #333; border: none; padding: 15px;
-            border-radius: 12px; font-size: 16px; margin: 10px 0; width: 100%; 
-            font-weight: bold; transition: 0.3s; cursor: pointer;
-        }
-        .btn-correct { background: var(--verde) !important; color: white !important; }
-        .btn-wrong { background: var(--vermelho) !important; color: white !important; animation: shake 0.4s; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+        .card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; width: 85%; max-width: 350px; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-opt { background: white; color: #333; border: none; padding: 15px; border-radius: 12px; font-size: 1rem; margin: 10px 0; width: 100%; font-weight: bold; cursor: pointer; }
 
         /* POLAROIDS E RASPADINHA */
-        .polaroid { position: absolute; width: 105px; background: white; padding: 8px 8px 22px 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.8); z-index: 50; transform: rotate(var(--r)); transition: 0.3s; }
-        .polaroid img { width: 100%; height: 95px; object-fit: cover; }
-        #scratch-container { position: relative; width: 250px; height: 330px; border: 6px solid white; border-radius: 15px; overflow: hidden; }
-        canvas { position: absolute; top:0; left:0; z-index: 10; touch-action: none; }
+        .polaroid { position: absolute; width: 95px; background: white; padding: 5px 5px 15px 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.8); z-index: 50; transform: rotate(var(--r)); }
+        .polaroid img { width: 100%; height: 85px; object-fit: cover; }
+        
+        #scratch-container { position: relative; width: 250px; height: 330px; border: 5px solid white; border-radius: 15px; overflow: hidden; background: #000; }
+        canvas { position: absolute; top:0; left:0; z-index: 60; touch-action: none; }
 
-        /* UTILITÁRIOS */
-        .hidden { display: none !important; }
-        .tela { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
-        .love-text { display: block; font-size: 1.8rem; font-weight: bold; color: #ff4d4d; margin-top: 20px; animation: heartBeat 1.5s infinite; }
-        @keyframes heartBeat { 0%, 28%, 70% { transform: scale(1); } 14%, 42% { transform: scale(1.1); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
     </style>
 </head>
 <body>
 
-    <div id="overlay-start">
-        <button class="btn-start" onclick="iniciar()">CLIQUE AQUI, ALINNE ❤️</button>
+    <div id="overlay-start" class="tela" style="z-index: 9999; background: #000;">
+        <button class="btn-start" onclick="iniciar()">ENTRAR NO PRESENTE ❤️</button>
     </div>
 
-    <iframe id="musica-bk" width="0" height="0" src="" frameborder="0" allow="autoplay"></iframe>
     <div id="star-container"></div>
 
-    <div id="tela-nome" class="tela hidden">
+    <div id="tela-1" class="tela hidden">
         <h1 class="neon-title">ALINNE</h1>
-        <div style="font-size: 25px; margin: 20px;">🍓 🎈 ✨</div>
-        <div style="font-size: 35px; animation: bounce 2s infinite;">▲</div>
-        <p>ARRASTE PARA CIMA</p>
+        <div style="font-size: 2.5rem; margin: 20px;">🍓 ✨ 🎈</div>
+        <p style="animation: bounce 2s infinite; margin-top: 30px;">▲ ARRASTE PARA CIMA ▲</p>
     </div>
 
-    <div id="tela-contador" class="tela hidden">
-        <h2 id="num-contador" style="font-size: 5rem; color: var(--vermelho); margin: 0;">0</h2>
-        <p style="font-size: 1.2rem;">dias de história...</p>
-        <div id="box-frases" class="hidden" style="padding: 20px;">
-            <p><i>"Qualquer plano se torna perfeito se for com você."</i></p>
-            <button class="btn-option" onclick="irParaQuiz()">Abrir Presente ✨</button>
-        </div>
-    </div>
-
-    <div id="tela-quiz" class="tela hidden">
+    <div id="tela-2" class="tela hidden">
         <div class="card">
             <h2 id="pergunta-txt"></h2>
             <div id="opcoes-cont"></div>
         </div>
     </div>
 
-    <div id="tela-raspadinha" class="tela hidden">
-        <div style="position: relative;">
-            <div class="polaroid" style="top: -40px; left: -40px; --r: -10deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220443966771270/IMG_20241104_144249.jpg?ex=69990e47&is=6997bcc7&hm=a6c8dd7459fc6349d7dbbe4d41cfc99f09dd1f0a1c15a0c9a83a3e5b255992e9&"></div>
-            <div class="polaroid" style="bottom: -30px; right: -40px; --r: 8deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220122263781488/Screenshot_2025-02-18-19-47-26-021_com.instagram.android2.jpg?ex=69990dfa&is=6997bc7a&hm=e31edae5c434b9b4cef17a2459b1e616b96a7fc1589531cc570a74bf0cd5f869&"></div>
-            <div id="scratch-container">
-                <iframe id="vid-raspar" width="100%" height="100%" src="https://www.youtube.com/embed/6JG20Tt2DAQ?enablejsapi=1&mute=1" frameborder="0"></iframe>
-                <canvas id="canvas-raspar" width="250" height="330"></canvas>
-            </div>
+    <div id="tela-3" class="tela hidden">
+        <h2 id="num-dias" style="font-size: 5rem; color: var(--vermelho);">0</h2>
+        <p>dias de história ao seu lado...</p>
+        <div id="btn-cont-box" class="hidden">
+            <p style="margin: 20px 0; font-style: italic;">"Qualquer plano se torna perfeito se for com você."</p>
+            <button class="btn-start" onclick="proximaTela(4)">VER SURPRESA ✨</button>
         </div>
-        <button class="btn-start" style="margin-top: 30px; font-size: 1rem;" onclick="irParaFinal()">Ainda não acabou... ✨</button>
     </div>
 
-    <div id="tela-final" class="tela hidden" style="background: #000; overflow-y: auto; justify-content: flex-start; padding-top: 40px;">
-        <div id="vid-final-cont" style="width: 85%; max-width: 400px; border-radius: 15px; overflow: hidden; border: 2px solid white;">
-            <iframe id="vid-enhypen" width="100%" height="220" src="" frameborder="0"></iframe>
+    <div id="tela-4" class="tela hidden">
+        <div style="position: relative; width: 250px; height: 330px;">
+            <div class="polaroid" style="top: -50px; left: -60px; --r: -15deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220443966771270/IMG_20241104_144249.jpg?ex=69990e47&is=6997bcc7&hm=a6c8dd7459fc6349d7dbbe4d41cfc99f09dd1f0a1c15a0c9a83a3e5b255992e9&"></div>
+            <div class="polaroid" style="top: -50px; right: -60px; --r: 15deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220122263781488/Screenshot_2025-02-18-19-47-26-021_com.instagram.android2.jpg?ex=69990dfa&is=6997bc7a&hm=e31edae5c434b9b4cef17a2459b1e616b96a7fc1589531cc570a74bf0cd5f869&"></div>
+            <div class="polaroid" style="bottom: -40px; left: -60px; --r: 10deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220053091319890/IMG_20250403_150058.jpg?ex=69990dea&is=6997bc6a&hm=c5d2c1116ee361772b565a07bb795da78124a31ef4e26451a5fe261628049086&"></div>
+            <div class="polaroid" style="bottom: -40px; right: -60px; --r: -12deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220052172771430/IMG-20260205-WA0037.jpg?ex=69990dea&is=6997bc6a&hm=ccb4d881b7a0d82044f1f4f1152df64f559582172e7f99d169eedcc764468d27&"></div>
+            
+            <div id="scratch-container">
+                <iframe id="vid-rasp" width="100%" height="100%" src="https://www.youtube.com/embed/6JG20Tt2DAQ?enablejsapi=1&mute=0&controls=0" frameborder="0"></iframe>
+                <canvas id="cvs-rasp" width="250" height="330"></canvas>
+            </div>
         </div>
-        <div id="texto-final" style="padding: 30px; line-height: 1.6; text-align: left;"></div>
+        <button class="btn-start" style="margin-top: 60px;" onclick="proximaTela(5)">Ainda não acabou... ✨</button>
+    </div>
+
+    <div id="tela-5" class="tela hidden" style="background:#000; overflow-y:auto; justify-content:flex-start; padding-top:40px;">
+        <div style="width: 85%; max-width: 400px; border-radius: 15px; overflow: hidden; border: 2px solid white;">
+            <iframe id="vid-final" width="100%" height="220" src="" frameborder="0"></iframe>
+        </div>
+        <div id="texto-final" style="padding: 30px; text-align: left; line-height: 1.6;"></div>
     </div>
 
     <script>
-        // INICIAR TUDO
         function iniciar() {
-            document.getElementById('overlay-start').style.display = 'none';
-            document.getElementById('tela-nome').classList.remove('hidden');
-            document.getElementById('musica-bk').src = "https://www.youtube.com/embed/V141wUSkTfk?autoplay=1";
-            gerarEstrelas();
-            setInterval(gerarChuva, 300);
+            document.getElementById('overlay-start').classList.add('hidden');
+            document.getElementById('tela-1').classList.remove('hidden');
+            setupEstrelas();
+            setInterval(chuva, 300);
         }
 
-        function gerarEstrelas() {
+        function setupEstrelas() {
             const cont = document.getElementById('star-container');
             for(let i=0; i<100; i++) {
                 const s = document.createElement('div');
                 s.className = 'star';
                 const size = Math.random()*3+'px';
                 s.style.width = size; s.style.height = size;
-                s.style.left = Math.random()*100+'vw';
-                s.style.top = Math.random()*100+'vh';
-                s.style.setProperty('--d', Math.random()*3+2+'s');
+                s.style.left = Math.random()*100+'vw'; s.style.top = Math.random()*100+'vh';
+                s.style.setProperty('--d', (Math.random()*3+2)+'s');
                 cont.appendChild(s);
             }
         }
 
-        function gerarChuva() {
+        function chuva() {
             const itens = ['🍓','🎉','✨','🎈','❤️'];
             const div = document.createElement('div');
             div.className = 'falling';
             div.innerHTML = itens[Math.floor(Math.random()*itens.length)];
             div.style.left = Math.random()*100+'vw';
-            div.style.fontSize = Math.random()*20+20+'px';
-            div.style.animationDuration = Math.random()*3+4+'s';
+            div.style.fontSize = (Math.random()*20+20)+'px';
+            div.style.animationDuration = (Math.random()*3+3)+'s';
             document.body.appendChild(div);
-            setTimeout(() => div.remove(), 6000);
+            setTimeout(() => div.remove(), 5000);
         }
 
-        // ARRASTAR
-        let yInic;
-        document.getElementById('tela-nome').addEventListener('touchstart', e => yInic = e.touches[0].pageY);
-        document.getElementById('tela-nome').addEventListener('touchmove', e => {
-            if(yInic - e.touches[0].pageY > 70) {
-                document.getElementById('tela-nome').classList.add('hidden');
-                document.getElementById('tela-contador').classList.remove('hidden');
-                rodarContador();
-            }
+        let yInit;
+        document.getElementById('tela-1').addEventListener('touchstart', e => yInit = e.touches[0].pageY);
+        document.getElementById('tela-1').addEventListener('touchmove', e => {
+            if(yInit - e.touches[0].pageY > 60) proximaTela(2);
         });
 
-        function rodarContador() {
-            let c = 0;
-            const t = setInterval(() => {
-                c += 7;
-                if(c >= 1095) { c=1095; clearInterval(t); document.getElementById('box-frases').classList.remove('hidden'); }
-                document.getElementById('num-contador').innerText = c;
-            }, 20);
-        }
-
-        function irParaQuiz() {
-            document.getElementById('tela-contador').classList.add('hidden');
-            document.getElementById('tela-quiz').classList.remove('hidden');
-            carregarPergunta();
+        function proximaTela(n) {
+            document.querySelectorAll('.tela').forEach(t => t.classList.add('hidden'));
+            document.getElementById('tela-'+n).classList.remove('hidden');
+            if(n === 2) carregarQuiz();
+            if(n === 3) rodarContador();
+            if(n === 4) setupRaspadinha();
+            if(n === 5) setupFinal();
         }
 
         const perguntas = [
             { q: "Como começamos a nos falar?", o: ["Na escola", "Esbarrão sem querer", "Pelo Insta"], a: 1 },
-            { q: "Qual o melhor grupo de kpop que você me apresentou?", o: ["Katseye", "Enhypen", "Twice", "New Jeans"], a: 3 },
-            { q: "Qual dessas frases foi dita por você?", o: ["Tô undo", "A PRTEGA?", "Vdi tr ruder"], a: 1 }
+            { q: "Qual o melhor grupo que você me apresentou?", o: ["Katseye", "Enhypen", "Twice", "New Jeans"], a: 3 },
+            { q: "Qual frase foi dita por você?", o: ["Tô undo", "A PRTEGA?", "Vdi tr ruder"], a: 1 }
         ];
-        let idxP = 0;
-        function carregarPergunta() {
-            const d = perguntas[idxP];
+        let pIdx = 0;
+        function carregarQuiz() {
+            const d = perguntas[pIdx];
             document.getElementById('pergunta-txt').innerText = d.q;
             const c = document.getElementById('opcoes-cont'); c.innerHTML = "";
             d.o.forEach((opt, i) => {
-                const b = document.createElement('button'); b.className = 'btn-option'; b.innerText = opt;
+                const b = document.createElement('button'); b.className = 'btn-opt'; b.innerText = opt;
                 b.onclick = () => {
                     if(i === d.a) {
-                        b.classList.add('btn-correct');
-                        setTimeout(() => { idxP++; if(idxP < perguntas.length) carregarPergunta(); else irParaRaspadinha(); }, 800);
-                    } else { b.classList.add('btn-wrong'); setTimeout(() => b.classList.remove('btn-wrong'), 500); }
+                        pIdx++; if(pIdx < perguntas.length) carregarQuiz(); else proximaTela(3);
+                    } else { b.style.background = "#ff4d4d"; setTimeout(() => b.style.background="white", 500); }
                 };
                 c.appendChild(b);
             });
         }
 
-        function irParaRaspadinha() {
-            document.getElementById('tela-quiz').classList.add('hidden');
-            document.getElementById('tela-raspadinha').classList.remove('hidden');
-            const cvs = document.getElementById('canvas-raspar'); const ctx = cvs.getContext('2d');
+        function rodarContador() {
+            let c = 0;
+            const t = setInterval(() => {
+                c += 7;
+                if(c >= 1095) { c=1095; clearInterval(t); document.getElementById('btn-cont-box').classList.remove('hidden'); }
+                document.getElementById('num-dias').innerText = c;
+            }, 20);
+        }
+
+        function setupRaspadinha() {
+            const cvs = document.getElementById('cvs-rasp'); const ctx = cvs.getContext('2d');
             ctx.fillStyle = '#ff4d4d'; ctx.fillRect(0,0,250,330);
-            ctx.fillStyle = 'white'; ctx.font = 'bold 18px sans-serif'; ctx.fillText('RASPE AQUI 🍓', 65, 165);
+            ctx.fillStyle = 'white'; ctx.font = 'bold 18px sans-serif'; ctx.textAlign = 'center';
+            ctx.fillText('RASPE AQUI 🍓', 125, 165);
             let d = false;
             const raspar = (e) => { if(!d) return; const r = cvs.getBoundingClientRect(); const x = (e.clientX || e.touches[0].clientX)-r.left; const y = (e.clientY || e.touches[0].clientY)-r.top; ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x,y,40,0,Math.PI*2); ctx.fill(); };
             cvs.addEventListener('touchstart', () => d=true); cvs.addEventListener('touchmove', raspar);
         }
 
-        function irParaFinal() {
-            document.getElementById('musica-bk').src = "";
-            document.getElementById('tela-raspadinha').classList.add('hidden');
-            document.getElementById('tela-final').classList.remove('hidden');
-            document.getElementById('vid-enhypen').src = "https://www.youtube.com/embed/8KA5mbn513Y?autoplay=1";
-            
+        function setupFinal() {
+            document.getElementById('vid-final').src = "https://www.youtube.com/embed/8KA5mbn513Y?autoplay=1";
             setTimeout(() => {
-                const f = document.getElementById('texto-final');
-                f.innerHTML = "Olhar para trás e ver tudo o que construímos nesses 3 anos me faz perceber que as melhores coisas da vida acontecem quando a gente menos espera... <br><br>Que a gente continue descobrindo músicas novas e criando memórias. <br><br><span class='love-text'>EU TE AMO! ❤️</span>";
+                document.getElementById('texto-final').innerHTML = "Olhar para trás e ver tudo o que construímos nesses 3 anos me faz perceber... <br><br> <span style='color:#ff4d4d; font-size:1.8rem; font-weight:bold;'>EU TE AMO! ❤️</span>";
             }, 18000);
         }
     </script>
