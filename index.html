@@ -85,6 +85,7 @@
             z-index: 300; display: flex; align-items: center;
             background: rgba(0,0,0,0.5); padding: 10px; border-radius: 40px;
             backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);
+            visibility: hidden; /* Só aparece quando a música toca */
         }
         .vinyl {
             width: 40px; height: 40px;
@@ -93,9 +94,17 @@
         }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .music-info { font-size: 12px; color: white; font-weight: bold; }
+
+        /* Overlay Invisível para capturar o primeiro toque e liberar o som */
+        #audio-unlock {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999; background: transparent;
+        }
     </style>
 </head>
 <body>
+
+    <div id="audio-unlock"></div>
 
     <div id="music-indicator">
         <div class="vinyl"></div>
@@ -151,9 +160,24 @@
         <div id="final-bye" class="hidden fade-in"></div>
     </div>
 
-    <iframe id="audio-player" width="0" height="0" src="https://www.youtube.com/embed/qPOE8QDXFCw?enablejsapi=1&autoplay=1" frameborder="0"></iframe>
+    <iframe id="audio-player" width="0" height="0" src="https://www.youtube.com/embed/qPOE8QDXFCw?enablejsapi=1&autoplay=1&controls=0" frameborder="0" allow="autoplay"></iframe>
 
     <script>
+        const player = document.getElementById('audio-player');
+        const unlock = document.getElementById('audio-unlock');
+        const indicator = document.getElementById('music-indicator');
+
+        // FUNÇÃO PARA TOCAR A MÚSICA (Desbloqueio de segurança)
+        function playMusic() {
+            player.src += "&autoplay=1";
+            indicator.style.visibility = 'visible';
+            unlock.style.display = 'none'; // Remove a camada após o primeiro toque
+        }
+
+        // Tenta tocar no primeiro clique/toque na tela
+        unlock.addEventListener('touchstart', playMusic);
+        unlock.addEventListener('click', playMusic);
+
         function createItem(type) {
             const item = document.createElement('div');
             if(type === '🍓') { item.className = 'strawberry'; item.innerHTML = '🍓'; item.style.animationDuration = '8s'; }
@@ -170,10 +194,6 @@
             if (startY - e.touches[0].pageY > 80) {
                 document.getElementById('drag-screen').style.transform = 'translateY(-100%)';
                 document.getElementById('quiz-section').classList.remove('hidden');
-                
-                // Força o play da música no primeiro movimento
-                const player = document.getElementById('audio-player');
-                player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
             }
         });
 
@@ -249,8 +269,8 @@
         document.getElementById('btn-extra').onclick = () => {
             document.getElementById('surprise-section').classList.add('hidden');
             document.getElementById('kpop-screen').classList.remove('hidden');
-            document.getElementById('audio-player').src = "about:blank"; // Para a música no final
-            document.getElementById('music-indicator').classList.add('hidden'); // Esconde o vinil
+            player.src = "about:blank"; // Para a música
+            indicator.style.display = 'none'; // Esconde o vinil
             
             const text = "Eles também não te esqueceram... ❤️";
             const box = document.getElementById('kpop-message');
