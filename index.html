@@ -21,7 +21,7 @@
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0.6; }
         }
 
-        /* Polaroids Interativas */
+        /* Polaroids */
         .polaroid {
             position: absolute; width: 105px; background: white; padding: 8px 8px 22px 8px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.8); z-index: 50; transform: rotate(var(--r));
@@ -41,10 +41,9 @@
         .card {
             background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px);
             padding: 30px; border-radius: 30px; width: 85%; max-width: 320px;
-            z-index: 20; border: 1px solid rgba(255,255,255,0.2); transition: all 0.5s ease;
+            z-index: 20; border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* Botões do Quiz com Feedback */
         .btn-option {
             background: white; color: #333; border: none; padding: 15px;
             border-radius: 12px; font-size: 16px; margin: 10px 0; width: 100%; 
@@ -53,11 +52,7 @@
         .btn-correct { background: var(--verde) !important; color: white !important; transform: scale(1.05); }
         .btn-wrong { background: var(--vermelho) !important; color: white !important; animation: shake 0.4s; }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
 
         #btn-extra {
             background: linear-gradient(45deg, #ff4d4d, #9b59b6);
@@ -75,20 +70,14 @@
 
         #final-bye { 
             font-size: 1rem; line-height: 1.5; padding: 20px; 
-            max-height: 50vh; overflow-y: auto; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            max-height: 45vh; overflow-y: auto; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .love-text {
             display: block; font-size: 1.8rem; font-weight: bold; color: #ff4d4d;
             margin-top: 20px; animation: heartBeat 1.5s infinite;
         }
-        @keyframes heartBeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.1); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.1); }
-            70% { transform: scale(1); }
-        }
+        @keyframes heartBeat { 0% { transform: scale(1); } 14% { transform: scale(1.1); } 28% { transform: scale(1); } 42% { transform: scale(1.1); } 70% { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -175,16 +164,13 @@
             const data = quizData[currentQ];
             const qText = document.getElementById('question-text');
             qText.style.opacity = 0;
-            
             setTimeout(() => {
                 qText.innerText = data.q;
                 qText.style.opacity = 1;
                 const container = document.getElementById('options-container'); 
                 container.innerHTML = "";
                 data.options.forEach((opt, index) => {
-                    const btn = document.createElement('button'); 
-                    btn.className = 'btn-option'; 
-                    btn.innerText = opt;
+                    const btn = document.createElement('button'); btn.className = 'btn-option'; btn.innerText = opt;
                     btn.onclick = () => checkAnswer(index, btn);
                     container.appendChild(btn);
                 });
@@ -195,11 +181,7 @@
             const data = quizData[currentQ];
             if(index === data.correct) {
                 btn.classList.add('btn-correct');
-                setTimeout(() => {
-                    currentQ++;
-                    if(currentQ < quizData.length) loadQuiz();
-                    else startTransition();
-                }, 800);
+                setTimeout(() => { currentQ++; if(currentQ < quizData.length) loadQuiz(); else startTransition(); }, 800);
             } else {
                 btn.classList.add('btn-wrong');
                 setTimeout(() => btn.classList.remove('btn-wrong'), 500);
@@ -256,11 +238,13 @@
                     setTimeout(() => {
                         document.getElementById('kpop-vid-container').classList.remove('hidden');
                         document.getElementById('vid-enhypen').src = "https://www.youtube.com/embed/8KA5mbn513Y?autoplay=1";
+                        
+                        // TEXTÃO APARECE DEPOIS DE 18 SEGUNDOS DE VÍDEO
                         setTimeout(() => {
                             const finalMsg = document.getElementById('final-bye');
                             finalMsg.innerHTML = "Olhar para trás e ver tudo o que construímos nesses 3 anos me faz perceber que as melhores coisas da vida acontecem quando a gente menos espera. O que começou com um esbarrão bobo na escola se tornou a minha parte favorita do dia.<br><br>Ver você chegar aos 17 anos é um privilégio, e eu espero que esse novo ciclo te traga tanta luz quanto você traz para os meus dias. Que a gente continue descobrindo músicas novas, rindo de coisas sem sentido e criando memórias que a gente ainda vai guardar com carinho por muito tempo.<br><br>Aproveita cada segundo, Alinne. Você merece o mundo, mas hoje, espero que esse pequeno pedaço de código tenha conseguido te fazer sorrir. <span class='love-text'>EU TE AMO! ❤️</span>";
                             finalMsg.classList.remove('hidden');
-                        }, 3000);
+                        }, 18000); // 18 segundos
                     }, 1000);
                 }
             }, 100);
