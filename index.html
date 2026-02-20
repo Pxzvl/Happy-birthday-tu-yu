@@ -101,7 +101,6 @@
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .music-info { font-size: 12px; color: white; font-weight: bold; }
 
-        /* Estilo do Diagnóstico */
         .score-text { font-size: 1.4rem; color: #ff9999; margin-bottom: 10px; font-weight: bold; }
         .diag-result { font-size: 1.6rem; font-weight: bold; text-transform: uppercase; margin: 15px 0; color: white; }
     </style>
@@ -229,17 +228,18 @@
             if(quizLocked) return;
             quizLocked = true;
             const data = quizData[currentQ];
-            const buttons = document.querySelectorAll('.btn-option');
+            const buttons = document.getElementById('options-container').querySelectorAll('.btn-option');
 
             if(index === data.correct) {
                 btn.classList.add('btn-correct');
                 score++;
             } else {
                 btn.classList.add('btn-wrong');
-                // Mostra a correta
+                // MOSTRA A CORRETA IMEDIATAMENTE
                 buttons[data.correct].classList.add('btn-correct');
             }
 
+            // Espera 2 segundos para ela ver a correta antes de mudar
             setTimeout(() => {
                 currentQ++;
                 if(currentQ < quizData.length) {
@@ -247,17 +247,15 @@
                 } else {
                     showDiagnosis();
                 }
-            }, 1500);
+            }, 2000);
         }
 
         function showDiagnosis() {
             document.getElementById('quiz-section').classList.add('hidden');
             const diagSection = document.getElementById('diagnosis-section');
             diagSection.classList.remove('hidden');
-            
             const total = quizData.length;
             const percent = (score / total) * 100;
-            
             document.getElementById('final-score').innerText = `Você acertou ${score} de ${total}!`;
             const msgBox = document.getElementById('diag-msg');
 
@@ -315,7 +313,6 @@
             document.getElementById('kpop-screen').classList.remove('hidden');
             player.src = "about:blank"; 
             indicator.style.display = 'none'; 
-            
             const text = "Eles também não te esqueceram... ❤️";
             const box = document.getElementById('kpop-message');
             let i = 0;
@@ -326,7 +323,6 @@
                     setTimeout(() => {
                         document.getElementById('kpop-vid-container').classList.remove('hidden');
                         document.getElementById('vid-enhypen').src = "https://www.youtube.com/embed/8KA5mbn513Y?autoplay=1";
-                        
                         setTimeout(() => {
                             const finalMsg = document.getElementById('final-bye');
                             finalMsg.innerHTML = "Olhar para trás e ver tudo o que construímos nesses 3 anos me faz perceber que as melhores coisas da vida acontecem quando a gente menos espera. O que começou com um esbarrão bobo na escola se tornou a minha parte favorita do dia.<br><br>Ver você chegar aos 17 anos é um privilégio, e eu espero que esse novo ciclo te traga tanta luz quanto você traz para os meus dias. Que a gente continue descobrindo músicas novas, rindo de coisas sem sentido e criando memórias que a gente ainda vai guardar com carinho por muito tempo.<br><br>Aproveita cada segundo, Alinne. Você merece o mundo, mas hoje, espero que esse pequeno pedaço de código tenha conseguido te fazer sorrir. <span class='love-text'>EU TE AMO! ❤️</span>";
