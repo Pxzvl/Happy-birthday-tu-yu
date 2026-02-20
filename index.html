@@ -12,7 +12,6 @@
             background: radial-gradient(circle, #2c3e50, #000);
         }
 
-        /* Elementos Animados */
         .strawberry { position: absolute; font-size: 45px; pointer-events: none; z-index: 5; animation: fall linear infinite; }
         .confetti { position: absolute; width: 8px; height: 8px; z-index: 5; animation: fall linear infinite; }
         @keyframes fall {
@@ -21,7 +20,7 @@
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0.6; }
         }
 
-        /* Polaroids */
+        
         .polaroid {
             position: absolute; width: 105px; background: white; padding: 8px 8px 22px 8px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.8); z-index: 50; transform: rotate(var(--r));
@@ -66,14 +65,6 @@
             color: white; border: none; padding: 15px 30px; border-radius: 25px;
             margin-top: 25px; font-weight: bold; animation: pulse 2s infinite; cursor: pointer;
         }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        #scratch-container { position: relative; width: 250px; height: 330px; border: 6px solid white; border-radius: 15px; overflow: hidden; }
-        canvas { position: absolute; top:0; left:0; z-index: 10; touch-action: none; }
-        
-        .hidden { display: none !important; }
-        .fade-in { animation: fadeIn 2s forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         #final-bye { 
             font-size: 1rem; line-height: 1.5; padding: 20px; 
@@ -103,6 +94,12 @@
 
         .score-text { font-size: 1.4rem; color: #ff9999; margin-bottom: 10px; font-weight: bold; }
         .diag-result { font-size: 1.6rem; font-weight: bold; text-transform: uppercase; margin: 15px 0; color: white; }
+        
+        #scratch-container { position: relative; width: 250px; height: 330px; border: 6px solid white; border-radius: 15px; overflow: hidden; }
+        canvas { position: absolute; top:0; left:0; z-index: 10; touch-action: none; }
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 2s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -116,7 +113,7 @@
         <div style="font-size: 50px;">🎂 ✨ 🎈</div>
         <h1 style="font-size: 3.5rem; letter-spacing: 10px; color: #ff4d4d;">ALINNE</h1>
         <div style="font-size: 35px; margin: 15px;">🎁 🍓 🎉</div>
-        <button class="btn-start-main" onclick="iniciarTudo()">ABRIR PRESENTE ❤️</button>
+        <button class="btn-start-main" onclick="iniciarTudo()">ABRIR PRESENTE </button>
     </div>
 
     <div id="transition-screen" class="hidden">
@@ -216,37 +213,38 @@
                 qText.style.opacity = 1;
                 const container = document.getElementById('options-container'); 
                 container.innerHTML = "";
-                data.options.forEach((opt, index) => {
-                    const btn = document.createElement('button'); btn.className = 'btn-option'; btn.innerText = opt;
-                    btn.onclick = () => checkAnswer(index, btn);
+                data.options.forEach((opt) => {
+                    const btn = document.createElement('button'); 
+                    btn.className = 'btn-option'; 
+                    btn.innerText = opt;
+                    btn.onclick = () => checkAnswer(opt, btn);
                     container.appendChild(btn);
                 });
             }, 300);
         }
 
-        function checkAnswer(index, btn) {
+        function checkAnswer(selectedOption, btn) {
             if(quizLocked) return;
             quizLocked = true;
             const data = quizData[currentQ];
-            const buttons = document.getElementById('options-container').querySelectorAll('.btn-option');
+            const correctText = data.options[data.correct]; // Pega o texto da opção correta
+            const buttons = document.querySelectorAll('.btn-option');
 
-            if(index === data.correct) {
+            if(selectedOption === correctText) {
                 btn.classList.add('btn-correct');
                 score++;
             } else {
                 btn.classList.add('btn-wrong');
-                // MOSTRA A CORRETA IMEDIATAMENTE
-                buttons[data.correct].classList.add('btn-correct');
+                // Procura o botão que tem o texto correto para pintar de verde
+                buttons.forEach(b => {
+                    if(b.innerText === correctText) b.classList.add('btn-correct');
+                });
             }
 
-            // Espera 2 segundos para ela ver a correta antes de mudar
             setTimeout(() => {
                 currentQ++;
-                if(currentQ < quizData.length) {
-                    loadQuiz();
-                } else {
-                    showDiagnosis();
-                }
+                if(currentQ < quizData.length) loadQuiz();
+                else showDiagnosis();
             }, 2000);
         }
 
@@ -259,16 +257,9 @@
             document.getElementById('final-score').innerText = `Você acertou ${score} de ${total}!`;
             const msgBox = document.getElementById('diag-msg');
 
-            if(percent === 50) {
-                msgBox.innerText = "Suspeita de Alzheimer 🧐";
-                msgBox.style.color = "#ffd700";
-            } else if (percent < 50) {
-                msgBox.innerText = "Você tem Alzheimer 🧠💨";
-                msgBox.style.color = "#ff4d4d";
-            } else {
-                msgBox.innerText = "Memória Boa! ✨";
-                msgBox.style.color = "#2ecc71";
-            }
+            if(percent === 50) { msgBox.innerText = "Suspeita de Alzheimer 🧐"; msgBox.style.color = "#ffd700"; }
+            else if (percent < 50) { msgBox.innerText = "Você tem Alzheimer 🧠💨"; msgBox.style.color = "#ff4d4d"; }
+            else { msgBox.innerText = "Memória Boa! ✨"; msgBox.style.color = "#2ecc71"; }
         }
 
         function prosseguirAposDiagnostico() {
