@@ -5,134 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>17 Anos da Alinne 🍓</title>
     <style>
-        :root { --vermelho: #ff3333; --azul: #003399; }
+        :root { --vermelho: #ff4d4d; --azul: #1a4d8c; }
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            font-family: 'Segoe UI', sans-serif; overflow: hidden;
-            background: linear-gradient(135deg, var(--azul), var(--vermelho));
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: radial-gradient(circle, #2c3e50, #000);
         }
 
-        /* Morangos Maiores e Lentos por toda a tela */
+        /* Morangos Gigantes e Lentos */
         .strawberry {
-            position: absolute; font-size: 45px; pointer-events: none;
-            z-index: 5; animation: fall linear infinite;
+            position: absolute; font-size: 50px; pointer-events: none;
+            z-index: 5; animation: fall linear infinite; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5));
         }
         @keyframes fall {
-            0% { transform: translateY(-15vh) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(-20vh) translateX(0) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0.8; }
+            100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0.7; }
         }
 
-        /* Estilo Polaroid */
+        /* Confetes de Aniversário na tela inicial */
+        .confetti {
+            position: absolute; width: 10px; height: 10px; z-index: 199;
+            animation: fall linear infinite;
+        }
+
+        /* Molduras Polaroid */
         .polaroid {
-            position: absolute; width: 110px; background: white;
-            padding: 8px 8px 25px 8px; box-shadow: 0 8px 15px rgba(0,0,0,0.4);
-            border-radius: 2px; z-index: 2; transform: rotate(var(--r));
+            position: absolute; width: 120px; background: white;
+            padding: 10px 10px 30px 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-radius: 3px; z-index: 2; transform: rotate(var(--r));
+            transition: 0.5s ease;
         }
-        .polaroid img { width: 100%; height: 110px; object-fit: cover; }
+        .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 50; }
+        .polaroid img { width: 100%; height: 120px; object-fit: cover; border: 1px solid #eee; }
 
-        /* Tela de Início Enfeitada */
+        /* Tela de Início Ultra Decorada */
         #drag-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 200; display: flex;
-            flex-direction: column; justify-content: center; align-items: center;
-            color: white; transition: transform 0.8s ease;
+            background: linear-gradient(to bottom, #000, #1a1a1a);
+            z-index: 200; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .bday-decor { font-size: 50px; margin: 15px; filter: drop-shadow(0 0 10px gold); }
-        .arrow-up { font-size: 40px; animation: bounce 2s infinite; margin-top: 30px; }
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-15px);} }
+        .bday-title {
+            font-size: 4rem; letter-spacing: 12px; margin: 0;
+            background: linear-gradient(to right, #ff4d4d, #ff9999, #ff4d4d);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(255,77,77,0.8));
+            animation: glow 2s ease-in-out infinite;
+        }
+        @keyframes glow { 0%, 100% { filter: drop-shadow(0 0 5px #f00); } 50% { filter: drop-shadow(0 0 20px #f00); } }
 
-        /* Containers */
-        #main-content {
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; height: 100vh; text-align: center; color: white;
+        /* Quiz Animado */
+        #quiz-section { 
+            animation: fadeIn 1s ease-out;
+            background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 0 30px rgba(255,77,77,0.3);
         }
-        .card {
-            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px);
-            padding: 25px; border-radius: 20px; width: 85%; max-width: 350px;
-            z-index: 10; border: 2px solid rgba(255,255,255,0.4);
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        
         .btn-option {
-            background: white; color: var(--azul); border: none;
-            padding: 14px; border-radius: 12px; font-size: 16px;
-            margin: 10px 0; cursor: pointer; width: 100%; font-weight: bold;
+            background: white; color: #333; border: none;
+            padding: 15px; border-radius: 15px; font-size: 17px;
+            margin: 12px 0; cursor: pointer; width: 100%; font-weight: bold;
+            box-shadow: 0 4px 0 #ccc; transition: 0.2s;
         }
+        .btn-option:active { transform: translateY(4px); box-shadow: none; }
 
-        /* Raspadinha Centralizada */
-        #surprise-section { z-index: 20; position: relative; }
+        /* Raspadinha */
+        #surprise-section { z-index: 20; position: relative; display: flex; flex-direction: column; align-items: center;}
         #scratch-container {
-            position: relative; width: 260px; height: 380px;
-            border: 6px solid white; border-radius: 15px; overflow: hidden; background: black;
+            position: relative; width: 280px; height: 380px;
+            border: 8px solid white; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
-        canvas { position: absolute; top:0; left:0; z-index: 2; touch-action: none; }
+        canvas { position: absolute; top:0; left:0; z-index: 2; touch-action: none; cursor: crosshair; }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
     <div id="drag-screen">
-        <div class="bday-decor">🎂 ✨ 🎈</div>
-        <h1 style="font-size: 3.8rem; letter-spacing: 10px; margin: 0; color: #ff3333; text-shadow: 3px 3px 0px white;">ALINNE</h1>
-        <div class="bday-decor">🎁 🍓 🎉</div>
-        <div class="arrow-up">▲</div>
-        <p style="font-weight: bold; letter-spacing: 2px;">ARRASTE PARA CIMA</p>
+        <div style="font-size: 60px;">🎈 🎁 🎂</div>
+        <h1 class="bday-title">ALINNE</h1>
+        <div style="font-size: 40px; margin: 20px;">✨ 🎊 🎉</div>
+        <div style="font-size: 50px; animation: bounce 2s infinite;">▲</div>
+        <p style="letter-spacing: 4px; font-weight: 300;">ARRRASTE PARA O PRESENTE</p>
     </div>
 
-    <div id="main-content">
-        <div id="quiz-section" class="card hidden">
-            <h2 id="question-text"></h2>
+    <div id="main-content" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div id="quiz-section" class="card hidden" style="padding: 30px; border-radius: 30px; width: 85%; max-width: 350px; text-align: center; color: white;">
+            <h2 id="question-text" style="font-size: 22px; margin-bottom: 20px;"></h2>
             <div id="options-container"></div>
         </div>
 
         <div id="surprise-section" class="hidden">
-            <div class="polaroid" style="top: -60px; left: -100px; --r: -15deg;"><img src="LINK_FOTO_1"></div>
-            <div class="polaroid" style="top: 150px; left: -110px; --r: 10deg;"><img src="LINK_FOTO_2"></div>
-            <div class="polaroid" style="top: -50px; right: -100px; --r: 15deg;"><img src="LINK_FOTO_3"></div>
-            <div class="polaroid" style="top: 160px; right: -110px; --r: -12deg;"><img src="LINK_FOTO_4"></div>
+            <div class="polaroid" style="top: -80px; left: -120px; --r: -15deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220443966771270/IMG_20241104_144249.jpg?ex=69990e47&is=6997bcc7&hm=a6c8dd7459fc6349d7dbbe4d41cfc99f09dd1f0a1c15a0c9a83a3e5b255992e9&"></div>
+            <div class="polaroid" style="top: 180px; left: -130px; --r: 12deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220122263781488/Screenshot_2025-02-18-19-47-26-021_com.instagram.android2.jpg?ex=69990dfa&is=6997bc7a&hm=e31edae5c434b9b4cef17a2459b1e616b96a7fc1589531cc570a74bf0cd5f869&"></div>
+            <div class="polaroid" style="top: -70px; right: -120px; --r: 18deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220053091319890/IMG_20250403_150058.jpg?ex=69990dea&is=6997bc6a&hm=c5d2c1116ee361772b565a07bb795da78124a31ef4e26451a5fe261628049086&"></div>
+            <div class="polaroid" style="top: 190px; right: -130px; --r: -10deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220052172771430/IMG-20260205-WA0037.jpg?ex=69990dea&is=6997bc6a&hm=ccb4d881b7a0d82044f1f4f1152df64f559582172e7f99d169eedcc764468d27&"></div>
 
             <div id="scratch-container">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/6JG20Tt2DAQ?enablejsapi=1&autoplay=1&mute=1" frameborder="0"></iframe>
-                <canvas id="scratch-canvas" width="260" height="380"></canvas>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/6JG20Tt2DAQ?enablejsapi=1&autoplay=1&mute=1&playlist=6JG20Tt2DAQ&loop=1" frameborder="0"></iframe>
+                <canvas id="scratch-canvas" width="280" height="380"></canvas>
             </div>
-            <p style="margin-top:20px; font-weight:bold; font-size: 1.2rem;">RASPE O VÍDEO! 🍓</p>
+            <p style="color: white; font-weight: bold; margin-top: 20px; text-shadow: 0 0 10px red;">RASPE PARA O VÍDEO 🍓</p>
         </div>
     </div>
 
     <iframe id="audio-player" width="0" height="0" src="https://www.youtube.com/embed/Vmjav3dZcNQ?enablejsapi=1" frameborder="0"></iframe>
 
     <script>
-        // Morangos Espalhados e Maiores
+        // Morangos lentos e grandes
         function createStrawberry() {
             const s = document.createElement('div');
             s.className = 'strawberry';
             s.innerHTML = '🍓';
-            s.style.left = Math.random() * 90 + 'vw';
-            s.style.top = "-10vh";
-            // Velocidade mais lenta (6 a 10 segundos)
-            s.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            s.style.left = Math.random() * 95 + 'vw';
+            s.style.animationDuration = (Math.random() * 5 + 7) + 's';
             document.body.appendChild(s);
-            setTimeout(() => s.remove(), 10000);
+            setTimeout(() => s.remove(), 12000);
         }
-        setInterval(createStrawberry, 600); // Intervalo maior para não encher demais
+        setInterval(createStrawberry, 800);
 
-        // Lógica de Arrastar
+        // Confetes
+        function createConfetti() {
+            const colors = ['#ff0', '#f0f', '#0ff', '#f00', '#0f0'];
+            const c = document.createElement('div');
+            c.className = 'confetti';
+            c.style.background = colors[Math.floor(Math.random()*colors.length)];
+            c.style.left = Math.random() * 100 + 'vw';
+            c.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.getElementById('drag-screen').appendChild(c);
+            setTimeout(() => c.remove(), 5000);
+        }
+        setInterval(createConfetti, 100);
+
+        // Arrastar
         let startY;
-        const dragScreen = document.getElementById('drag-screen');
-        dragScreen.addEventListener('touchstart', e => startY = e.touches[0].pageY);
-        dragScreen.addEventListener('touchmove', e => {
-            if (startY - e.touches[0].pageY > 100) {
-                dragScreen.style.transform = 'translateY(-100%)';
-                setTimeout(() => {
-                    dragScreen.classList.add('hidden');
-                    document.getElementById('quiz-section').classList.remove('hidden');
-                }, 800);
+        document.getElementById('drag-screen').addEventListener('touchstart', e => startY = e.touches[0].pageY);
+        document.getElementById('drag-screen').addEventListener('touchmove', e => {
+            if (startY - e.touches[0].pageY > 80) {
+                document.getElementById('drag-screen').style.transform = 'translateY(-100%)';
+                document.getElementById('quiz-section').classList.remove('hidden');
             }
         });
 
         // Quiz
         const quizData = [
             { q: "Como começamos a nos falar?", options: ["Na escola", "Eu esbarrei em você sem querer", "Pelo Insta"], correct: 1 },
-            { q: "Qual melhor grupo de kpop que você me apresentou?", options: ["Katseye", "Enhypen", "Twice", "New Jeans"], correct: 3 },
+            { q: "Qual o melhor grupo de kpop que você me apresentou?", options: ["Katseye", "Enhypen", "Twice", "New Jeans"], correct: 3 },
             { q: "Qual dessas frases foi dita por você?", options: ["Tô undo", "A PRTEGA?", "Vdi tr ruder"], correct: 1 }
         ];
 
@@ -150,7 +173,7 @@
                     if(index === data.correct) {
                         currentQ++;
                         if(currentQ < quizData.length) loadQuiz();
-                        else showSurprise();
+                        else finishQuiz();
                     } else { alert("🍓 Errou! Tenta de novo!"); }
                 };
                 container.appendChild(btn);
@@ -158,18 +181,18 @@
         }
         loadQuiz();
 
-        function showSurprise() {
+        function finishQuiz() {
             document.getElementById('quiz-section').classList.add('hidden');
             document.getElementById('surprise-section').classList.remove('hidden');
             document.getElementById('audio-player').src += "&autoplay=1";
             
             const canvas = document.getElementById('scratch-canvas');
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#ff3333';
-            ctx.fillRect(0,0,260,380);
+            ctx.fillStyle = '#ff4d4d';
+            ctx.fillRect(0,0,280,380);
             ctx.fillStyle = 'white';
             ctx.font = 'bold 20px sans-serif';
-            ctx.fillText('RASPE AQUI 🍓', 60, 190);
+            ctx.fillText('RASPE O PRESENTE 🍓', 40, 190);
 
             let isDrawing = false;
             function scratch(e) {
@@ -178,7 +201,7 @@
                 const x = (e.clientX || e.touches[0].clientX) - rect.left;
                 const y = (e.clientY || e.touches[0].clientY) - rect.top;
                 ctx.globalCompositeOperation = 'destination-out';
-                ctx.beginPath(); ctx.arc(x, y, 45, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(x, y, 40, 0, Math.PI * 2); ctx.fill();
             }
             canvas.addEventListener('touchstart', () => isDrawing = true);
             canvas.addEventListener('touchend', () => isDrawing = false);
