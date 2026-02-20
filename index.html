@@ -3,205 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Alinne 🍓</title>
+    <title>17 Anos da Alinne 🍓</title>
     <style>
-        :root { --vermelho: #ff4d4d; --verde: #2ecc71; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { 
-            width: 100%; height: 100%; 
-            background: radial-gradient(circle at center, #1B2735 0%, #000000 100%) !important;
-            color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden;
+        :root { --vermelho: #ff4d4d; --roxo: #9b59b6; --verde: #2ecc71; }
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            font-family: 'Segoe UI', sans-serif; overflow: hidden;
+            background: radial-gradient(circle, #2c3e50, #000);
         }
 
-        /* ESTRELAS E ELEMENTOS */
-        #star-container { position: fixed; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.6; animation: twinkle var(--d) infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-        
-        .falling { position: absolute; pointer-events: none; z-index: 100; animation: fall linear infinite; }
+        /* Elementos Animados */
+        .strawberry { position: absolute; font-size: 45px; pointer-events: none; z-index: 5; animation: fall linear infinite; }
+        .confetti { position: absolute; width: 8px; height: 8px; z-index: 5; animation: fall linear infinite; }
         @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(-20vh) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0.6; }
         }
 
-        /* TELAS */
-        .tela { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10; }
-        .hidden { display: none !important; }
-
-        /* NOME NEON */
-        .neon-title {
-            font-size: 4rem; color: #fff; font-weight: 900; letter-spacing: 5px;
-            text-shadow: 0 0 15px var(--vermelho), 0 0 30px var(--vermelho);
-            animation: pulse 2s infinite;
+        /* Polaroids */
+        .polaroid {
+            position: absolute; width: 105px; background: white; padding: 8px 8px 22px 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.8); z-index: 50; transform: rotate(var(--r));
+            transition: transform 0.3s ease;
         }
+        .polaroid:active { transform: scale(1.3) rotate(0deg); z-index: 100; }
+        .polaroid img { width: 100%; height: 95px; object-fit: cover; }
 
-        /* BOTÕES */
-        .btn-start {
-            background: var(--vermelho); color: white; border: none; padding: 20px 40px;
-            border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer;
-            box-shadow: 0 0 20px var(--vermelho); z-index: 10000;
+        /* Telas */
+        #drag-screen, #transition-screen, #kpop-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 200; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white; text-align: center;
         }
-
-        .card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 30px; border-radius: 30px; width: 85%; max-width: 350px; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-opt { background: white; color: #333; border: none; padding: 15px; border-radius: 12px; font-size: 1rem; margin: 10px 0; width: 100%; font-weight: bold; cursor: pointer; }
-
-        /* POLAROIDS E RASPADINHA */
-        .polaroid { position: absolute; width: 95px; background: white; padding: 5px 5px 15px 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.8); z-index: 50; transform: rotate(var(--r)); }
-        .polaroid img { width: 100%; height: 85px; object-fit: cover; }
+        #drag-screen { transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); }
         
-        #scratch-container { position: relative; width: 250px; height: 330px; border: 5px solid white; border-radius: 15px; overflow: hidden; background: #000; }
-        canvas { position: absolute; top:0; left:0; z-index: 60; touch-action: none; }
+        .card {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px);
+            padding: 30px; border-radius: 30px; width: 85%; max-width: 320px;
+            z-index: 20; border: 1px solid rgba(255,255,255,0.2);
+        }
 
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .btn-option {
+            background: white; color: #333; border: none; padding: 15px;
+            border-radius: 12px; font-size: 16px; margin: 10px 0; width: 100%; 
+            font-weight: bold; transition: all 0.3s ease; cursor: pointer;
+        }
+        .btn-correct { background: var(--verde) !important; color: white !important; transform: scale(1.05); }
+        .btn-wrong { background: var(--vermelho) !important; color: white !important; animation: shake 0.4s; }
+
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+        #btn-extra {
+            background: linear-gradient(45deg, #ff4d4d, #9b59b6);
+            color: white; border: none; padding: 15px 30px; border-radius: 25px;
+            margin-top: 25px; font-weight: bold; animation: pulse 2s infinite; cursor: pointer;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        #scratch-container { position: relative; width: 250px; height: 330px; border: 6px solid white; border-radius: 15px; overflow: hidden; }
+        canvas { position: absolute; top:0; left:0; z-index: 10; touch-action: none; }
+        
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 2s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        #final-bye { 
+            font-size: 1rem; line-height: 1.5; padding: 20px; 
+            max-height: 45vh; overflow-y: auto; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .love-text {
+            display: block; font-size: 1.8rem; font-weight: bold; color: #ff4d4d;
+            margin-top: 20px; animation: heartBeat 1.5s infinite;
+        }
+        @keyframes heartBeat { 0% { transform: scale(1); } 14% { transform: scale(1.1); } 28% { transform: scale(1); } 42% { transform: scale(1.1); } 70% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <div id="overlay-start" class="tela" style="z-index: 9999; background: #000;">
-        <button class="btn-start" onclick="iniciar()">ENTRAR NO PRESENTE ❤️</button>
+    <div id="drag-screen">
+        <div style="font-size: 50px;">🎂 ✨ 🎈</div>
+        <h1 style="font-size: 3.5rem; letter-spacing: 10px; color: #ff4d4d;">ALINNE</h1>
+        <div style="font-size: 35px; margin: 15px;">🎁 🍓 🎉</div>
+        <div style="font-size: 40px; animation: bounce 2s infinite;">▲</div>
+        <p>ARRASTE PARA CIMA</p>
     </div>
 
-    <div id="star-container"></div>
-
-    <div id="tela-1" class="tela hidden">
-        <h1 class="neon-title">ALINNE</h1>
-        <div style="font-size: 2.5rem; margin: 20px;">🍓 ✨ 🎈</div>
-        <p style="animation: bounce 2s infinite; margin-top: 30px;">▲ ARRASTE PARA CIMA ▲</p>
-    </div>
-
-    <div id="tela-2" class="tela hidden">
-        <div class="card">
-            <h2 id="pergunta-txt"></h2>
-            <div id="opcoes-cont"></div>
+    <div id="transition-screen" class="hidden">
+        <div id="counter-box">
+            <h2 id="days-number" style="font-size: 4.5rem; color: #ff4d4d; margin: 0;">0</h2>
+            <p style="font-size: 1.2rem;">dias de história...</p>
+        </div>
+        <div id="phrases-box" class="hidden" style="padding: 25px;">
+            <p class="fade-in" style="font-size: 1.2rem; font-style: italic;">"Por cada risada e cada música nova... 🍓"</p>
+            <p id="phrase-2" class="hidden fade-in" style="font-size: 1.3rem; font-weight: bold; color: #ff9999; margin-top: 15px;">Qualquer plano se torna perfeito se for com você.</p>
+            <button id="btn-reveal" class="hidden btn-option" style="margin-top: 20px;">Abrir Presente ✨</button>
         </div>
     </div>
 
-    <div id="tela-3" class="tela hidden">
-        <h2 id="num-dias" style="font-size: 5rem; color: var(--vermelho);">0</h2>
-        <p>dias de história ao seu lado...</p>
-        <div id="btn-cont-box" class="hidden">
-            <p style="margin: 20px 0; font-style: italic;">"Qualquer plano se torna perfeito se for com você."</p>
-            <button class="btn-start" onclick="proximaTela(4)">VER SURPRESA ✨</button>
+    <div id="main-content" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div id="quiz-section" class="card hidden">
+            <h2 id="question-text" style="transition: opacity 0.3s;"></h2>
+            <div id="options-container"></div>
         </div>
-    </div>
 
-    <div id="tela-4" class="tela hidden">
-        <div style="position: relative; width: 250px; height: 330px;">
-            <div class="polaroid" style="top: -50px; left: -60px; --r: -15deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220443966771270/IMG_20241104_144249.jpg?ex=69990e47&is=6997bcc7&hm=a6c8dd7459fc6349d7dbbe4d41cfc99f09dd1f0a1c15a0c9a83a3e5b255992e9&"></div>
-            <div class="polaroid" style="top: -50px; right: -60px; --r: 15deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220122263781488/Screenshot_2025-02-18-19-47-26-021_com.instagram.android2.jpg?ex=69990dfa&is=6997bc7a&hm=e31edae5c434b9b4cef17a2459b1e616b96a7fc1589531cc570a74bf0cd5f869&"></div>
-            <div class="polaroid" style="bottom: -40px; left: -60px; --r: 10deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220053091319890/IMG_20250403_150058.jpg?ex=69990dea&is=6997bc6a&hm=c5d2c1116ee361772b565a07bb795da78124a31ef4e26451a5fe261628049086&"></div>
-            <div class="polaroid" style="bottom: -40px; right: -60px; --r: -12deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220052172771430/IMG-20260205-WA0037.jpg?ex=69990dea&is=6997bc6a&hm=ccb4d881b7a0d82044f1f4f1152df64f559582172e7f99d169eedcc764468d27&"></div>
-            
-            <div id="scratch-container">
-                <iframe id="vid-rasp" width="100%" height="100%" src="https://www.youtube.com/embed/6JG20Tt2DAQ?enablejsapi=1&mute=0&controls=0" frameborder="0"></iframe>
-                <canvas id="cvs-rasp" width="250" height="330"></canvas>
+        <div id="surprise-section" class="hidden" style="display: flex; flex-direction: column; align-items: center;">
+            <div style="position: relative;">
+                <div class="polaroid" style="top: -50px; left: -40px; --r: -10deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220443966771270/IMG_20241104_144249.jpg?ex=69990e47&is=6997bcc7&hm=a6c8dd7459fc6349d7dbbe4d41cfc99f09dd1f0a1c15a0c9a83a3e5b255992e9&"></div>
+                <div class="polaroid" style="bottom: -30px; left: -45px; --r: 8deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220122263781488/Screenshot_2025-02-18-19-47-26-021_com.instagram.android2.jpg?ex=69990dfa&is=6997bc7a&hm=e31edae5c434b9b4cef17a2459b1e616b96a7fc1589531cc570a74bf0cd5f869&"></div>
+                <div class="polaroid" style="top: -40px; right: -40px; --r: 12deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220053091319890/IMG_20250403_150058.jpg?ex=69990dea&is=6997bc6a&hm=c5d2c1116ee361772b565a07bb795da78124a31ef4e26451a5fe261628049086&"></div>
+                <div class="polaroid" style="bottom: -40px; right: -45px; --r: -8deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220052172771430/IMG-20260205-WA0037.jpg?ex=69990dea&is=6997bc6a&hm=ccb4d881b7a0d82044f1f4f1152df64f559582172e7f99d169eedcc764468d27&"></div>
+                <div id="scratch-container">
+                    <iframe id="vid1" width="100%" height="100%" src="https://www.youtube.com/embed/6JG20Tt2DAQ?enablejsapi=1&loop=1&playlist=6JG20Tt2DAQ" frameborder="0"></iframe>
+                    <canvas id="scratch-canvas" width="250" height="330"></canvas>
+                </div>
             </div>
+            <button id="btn-extra">Ainda não acabou... ✨</button>
         </div>
-        <button class="btn-start" style="margin-top: 60px;" onclick="proximaTela(5)">Ainda não acabou... ✨</button>
     </div>
 
-    <div id="tela-5" class="tela hidden" style="background:#000; overflow-y:auto; justify-content:flex-start; padding-top:40px;">
-        <div style="width: 85%; max-width: 400px; border-radius: 15px; overflow: hidden; border: 2px solid white;">
-            <iframe id="vid-final" width="100%" height="220" src="" frameborder="0"></iframe>
+    <div id="kpop-screen" class="hidden">
+        <div id="kpop-message" style="margin-top: 20px;"></div>
+        <div id="kpop-vid-container" class="hidden" style="width: 85%; max-width: 400px; border: 2px solid white; border-radius: 15px; overflow: hidden; margin: 20px 0;">
+            <iframe id="vid-enhypen" width="100%" height="220" src="" frameborder="0" allow="autoplay"></iframe>
         </div>
-        <div id="texto-final" style="padding: 30px; text-align: left; line-height: 1.6;"></div>
+        <div id="final-bye" class="hidden fade-in"></div>
     </div>
+
+    <iframe id="audio-player" width="0" height="0" src="https://www.youtube.com/embed/Vmjav3dZcNQ?enablejsapi=1" frameborder="0"></iframe>
 
     <script>
-        function iniciar() {
-            document.getElementById('overlay-start').classList.add('hidden');
-            document.getElementById('tela-1').classList.remove('hidden');
-            setupEstrelas();
-            setInterval(chuva, 300);
+        function createItem(type) {
+            const item = document.createElement('div');
+            if(type === '🍓') { item.className = 'strawberry'; item.innerHTML = '🍓'; item.style.animationDuration = '8s'; }
+            else { item.className = 'confetti'; const colors=['#ff4d4d','#fff','#ffd700','#ff00ff']; item.style.background=colors[Math.floor(Math.random()*4)]; item.style.animationDuration='4s'; }
+            item.style.left = Math.random() * 95 + 'vw'; item.style.top = "-15vh";
+            document.body.appendChild(item); setTimeout(() => item.remove(), 10000);
         }
+        setInterval(() => createItem('🍓'), 1000);
+        setInterval(() => createItem('confetti'), 300);
 
-        function setupEstrelas() {
-            const cont = document.getElementById('star-container');
-            for(let i=0; i<100; i++) {
-                const s = document.createElement('div');
-                s.className = 'star';
-                const size = Math.random()*3+'px';
-                s.style.width = size; s.style.height = size;
-                s.style.left = Math.random()*100+'vw'; s.style.top = Math.random()*100+'vh';
-                s.style.setProperty('--d', (Math.random()*3+2)+'s');
-                cont.appendChild(s);
+        let startY;
+        document.getElementById('drag-screen').addEventListener('touchstart', e => startY = e.touches[0].pageY);
+        document.getElementById('drag-screen').addEventListener('touchmove', e => {
+            if (startY - e.touches[0].pageY > 80) {
+                document.getElementById('drag-screen').style.transform = 'translateY(-100%)';
+                document.getElementById('quiz-section').classList.remove('hidden');
             }
-        }
-
-        function chuva() {
-            const itens = ['🍓','🎉','✨','🎈','❤️'];
-            const div = document.createElement('div');
-            div.className = 'falling';
-            div.innerHTML = itens[Math.floor(Math.random()*itens.length)];
-            div.style.left = Math.random()*100+'vw';
-            div.style.fontSize = (Math.random()*20+20)+'px';
-            div.style.animationDuration = (Math.random()*3+3)+'s';
-            document.body.appendChild(div);
-            setTimeout(() => div.remove(), 5000);
-        }
-
-        let yInit;
-        document.getElementById('tela-1').addEventListener('touchstart', e => yInit = e.touches[0].pageY);
-        document.getElementById('tela-1').addEventListener('touchmove', e => {
-            if(yInit - e.touches[0].pageY > 60) proximaTela(2);
         });
 
-        function proximaTela(n) {
-            document.querySelectorAll('.tela').forEach(t => t.classList.add('hidden'));
-            document.getElementById('tela-'+n).classList.remove('hidden');
-            if(n === 2) carregarQuiz();
-            if(n === 3) rodarContador();
-            if(n === 4) setupRaspadinha();
-            if(n === 5) setupFinal();
-        }
-
-        const perguntas = [
-            { q: "Como começamos a nos falar?", o: ["Na escola", "Esbarrão sem querer", "Pelo Insta"], a: 1 },
-            { q: "Qual o melhor grupo que você me apresentou?", o: ["Katseye", "Enhypen", "Twice", "New Jeans"], a: 3 },
-            { q: "Qual frase foi dita por você?", o: ["Tô undo", "A PRTEGA?", "Vdi tr ruder"], a: 1 }
+        const quizData = [
+            { q: "Como começamos a nos falar?", options: ["Na escola", "Eu esbarrei em você sem querer", "Pelo Insta"], correct: 1 },
+            { q: "Qual o melhor grupo de kpop que você me apresentou?", options: ["Katseye", "Enhypen", "Twice", "New Jeans"], correct: 3 },
+            { q: "Qual dessas frases foi dita por você?", options: ["Tô undo", "A PRTEGA?", "Vdi tr ruder"], correct: 1 }
         ];
-        let pIdx = 0;
-        function carregarQuiz() {
-            const d = perguntas[pIdx];
-            document.getElementById('pergunta-txt').innerText = d.q;
-            const c = document.getElementById('opcoes-cont'); c.innerHTML = "";
-            d.o.forEach((opt, i) => {
-                const b = document.createElement('button'); b.className = 'btn-opt'; b.innerText = opt;
-                b.onclick = () => {
-                    if(i === d.a) {
-                        pIdx++; if(pIdx < perguntas.length) carregarQuiz(); else proximaTela(3);
-                    } else { b.style.background = "#ff4d4d"; setTimeout(() => b.style.background="white", 500); }
-                };
-                c.appendChild(b);
-            });
-        }
 
-        function rodarContador() {
-            let c = 0;
-            const t = setInterval(() => {
-                c += 7;
-                if(c >= 1095) { c=1095; clearInterval(t); document.getElementById('btn-cont-box').classList.remove('hidden'); }
-                document.getElementById('num-dias').innerText = c;
-            }, 20);
-        }
-
-        function setupRaspadinha() {
-            const cvs = document.getElementById('cvs-rasp'); const ctx = cvs.getContext('2d');
-            ctx.fillStyle = '#ff4d4d'; ctx.fillRect(0,0,250,330);
-            ctx.fillStyle = 'white'; ctx.font = 'bold 18px sans-serif'; ctx.textAlign = 'center';
-            ctx.fillText('RASPE AQUI 🍓', 125, 165);
-            let d = false;
-            const raspar = (e) => { if(!d) return; const r = cvs.getBoundingClientRect(); const x = (e.clientX || e.touches[0].clientX)-r.left; const y = (e.clientY || e.touches[0].clientY)-r.top; ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x,y,40,0,Math.PI*2); ctx.fill(); };
-            cvs.addEventListener('touchstart', () => d=true); cvs.addEventListener('touchmove', raspar);
-        }
-
-        function setupFinal() {
-            document.getElementById('vid-final').src = "https://www.youtube.com/embed/8KA5mbn513Y?autoplay=1";
+        let currentQ = 0;
+        function loadQuiz() {
+            const data = quizData[currentQ];
+            const qText = document.getElementById('question-text');
+            qText.style.opacity = 0;
             setTimeout(() => {
-                document.getElementById('texto-final').innerHTML = "Olhar para trás e ver tudo o que construímos nesses 3 anos me faz perceber... <br><br> <span style='color:#ff4d4d; font-size:1.8rem; font-weight:bold;'>EU TE AMO! ❤️</span>";
-            }, 18000);
+                qText.innerText = data.q;
+                qText.style.opacity = 1;
+                const container = document.getElementById('options-container'); 
+                container.innerHTML = "";
+                data.options.forEach((opt, index) => {
+                    const btn = document.createElement('button'); btn.className = 'btn-option'; btn.innerText = opt;
+                    btn.onclick = () => checkAnswer(index, btn);
+                    container.appendChild(btn);
+                });
+            }, 300);
         }
+
+        function checkAnswer(index, btn) {
+            const data = quizData[currentQ];
+            if(index === data.correct) {
+                btn.classList.add('btn-correct');
+                setTimeout(() => { currentQ++; if(currentQ < quizData.length) loadQuiz(); else startTransition(); }, 800);
+            } else {
+                btn.classList.add('btn-wrong');
+                setTimeout(() => btn.classList.remove('btn-wrong'), 500);
+            }
+        }
+        loadQuiz();
+
+        function startTransition() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('transition-screen').classList.remove('hidden');
+            let count = 0; const target = 1095;
+            const timer = setInterval(() => {
+                count += 5; if(count >= target) { count = target; clearInterval(timer); showPhrases(); }
+                document.getElementById('days-number').innerText = count;
+            }, 25);
+        }
+
+        function showPhrases() {
+            setTimeout(() => { document.getElementById('phrases-box').classList.remove('hidden');
+            setTimeout(() => { document.getElementById('phrase-2').classList.remove('hidden'); 
+            setTimeout(() => { document.getElementById('btn-reveal').classList.remove('hidden'); }, 2000); }, 2000); }, 1000);
+        }
+
+        document.getElementById('btn-reveal').onclick = () => {
+            document.getElementById('transition-screen').classList.add('hidden');
+            document.getElementById('surprise-section').classList.remove('hidden');
+            document.getElementById('vid1').src += "&autoplay=1&mute=1";
+            document.getElementById('audio-player').src += "&autoplay=1";
+            initScratch();
+        };
+
+        function initScratch() {
+            const canvas = document.getElementById('scratch-canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ff4d4d'; ctx.fillRect(0,0,250,330);
+            ctx.fillStyle = 'white'; ctx.font = 'bold 18px sans-serif'; ctx.fillText('RASPE AQUI 🍓', 65, 165);
+            let draw = false;
+            const scratch = (e) => { if(!draw) return; const r = canvas.getBoundingClientRect(); const x = (e.clientX || e.touches[0].clientX)-r.left; const y = (e.clientY || e.touches[0].clientY)-r.top; ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x,y,40,0,Math.PI*2); ctx.fill(); };
+            canvas.addEventListener('touchstart', () => draw = true); canvas.addEventListener('touchend', () => draw = false); canvas.addEventListener('touchmove', scratch);
+        }
+
+        document.getElementById('btn-extra').onclick = () => {
+            document.getElementById('surprise-section').classList.add('hidden');
+            document.getElementById('kpop-screen').classList.remove('hidden');
+            document.getElementById('audio-player').src = "about:blank";
+            
+            const text = "Eles também não te esqueceram... ❤️";
+            const box = document.getElementById('kpop-message');
+            let i = 0;
+            const type = setInterval(() => {
+                box.innerHTML += text.charAt(i); i++;
+                if (i >= text.length) {
+                    clearInterval(type);
+                    setTimeout(() => {
+                        document.getElementById('kpop-vid-container').classList.remove('hidden');
+                        document.getElementById('vid-enhypen').src = "https://www.youtube.com/embed/8KA5mbn513Y?autoplay=1";
+                        
+                        // TEXTÃO APARECE DEPOIS DE 18 SEGUNDOS DE VÍDEO
+                        setTimeout(() => {
+                            const finalMsg = document.getElementById('final-bye');
+                            finalMsg.innerHTML = "Olhar para trás e ver tudo o que construímos nesses 3 anos me faz perceber que as melhores coisas da vida acontecem quando a gente menos espera. O que começou com um esbarrão bobo na escola se tornou a minha parte favorita do dia.<br><br>Ver você chegar aos 17 anos é um privilégio, e eu espero que esse novo ciclo te traga tanta luz quanto você traz para os meus dias. Que a gente continue descobrindo músicas novas, rindo de coisas sem sentido e criando memórias que a gente ainda vai guardar com carinho por muito tempo.<br><br>Aproveita cada segundo, Alinne. Você merece o mundo, mas hoje, espero que esse pequeno pedaço de código tenha conseguido te fazer sorrir. <span class='love-text'>EU TE AMO! ❤️</span>";
+                            finalMsg.classList.remove('hidden');
+                        }, 18000); // 18 segundos
+                    }, 1000);
+                }
+            }, 100);
+        };
     </script>
 </body>
 </html>
