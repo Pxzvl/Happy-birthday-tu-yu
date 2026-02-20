@@ -78,9 +78,29 @@
             margin-top: 20px; animation: heartBeat 1.5s infinite;
         }
         @keyframes heartBeat { 0% { transform: scale(1); } 14% { transform: scale(1.1); } 28% { transform: scale(1); } 42% { transform: scale(1.1); } 70% { transform: scale(1); } }
+
+        /* ESTILO DO VINIL */
+        #music-indicator {
+            position: fixed; bottom: 20px; right: 20px;
+            z-index: 300; display: flex; align-items: center;
+            background: rgba(0,0,0,0.5); padding: 10px; border-radius: 40px;
+            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);
+        }
+        .vinyl {
+            width: 40px; height: 40px;
+            background: url('https://cdn-icons-png.flaticon.com/512/100/100523.png') center/cover;
+            border-radius: 50%; animation: spin 3s linear infinite; margin-right: 10px;
+        }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .music-info { font-size: 12px; color: white; font-weight: bold; }
     </style>
 </head>
 <body>
+
+    <div id="music-indicator">
+        <div class="vinyl"></div>
+        <div class="music-info">love. - W2E</div>
+    </div>
 
     <div id="drag-screen">
         <div style="font-size: 50px;">🎂 ✨ 🎈</div>
@@ -131,7 +151,7 @@
         <div id="final-bye" class="hidden fade-in"></div>
     </div>
 
-    <iframe id="audio-player" width="0" height="0" src="https://www.youtube.com/embed/Vmjav3dZcNQ?enablejsapi=1" frameborder="0"></iframe>
+    <iframe id="audio-player" width="0" height="0" src="https://www.youtube.com/embed/qPOE8QDXFCw?enablejsapi=1&autoplay=1" frameborder="0"></iframe>
 
     <script>
         function createItem(type) {
@@ -150,6 +170,10 @@
             if (startY - e.touches[0].pageY > 80) {
                 document.getElementById('drag-screen').style.transform = 'translateY(-100%)';
                 document.getElementById('quiz-section').classList.remove('hidden');
+                
+                // Força o play da música no primeiro movimento
+                const player = document.getElementById('audio-player');
+                player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
             }
         });
 
@@ -209,7 +233,6 @@
             document.getElementById('transition-screen').classList.add('hidden');
             document.getElementById('surprise-section').classList.remove('hidden');
             document.getElementById('vid1').src += "&autoplay=1&mute=1";
-            document.getElementById('audio-player').src += "&autoplay=1";
             initScratch();
         };
 
@@ -226,7 +249,8 @@
         document.getElementById('btn-extra').onclick = () => {
             document.getElementById('surprise-section').classList.add('hidden');
             document.getElementById('kpop-screen').classList.remove('hidden');
-            document.getElementById('audio-player').src = "about:blank";
+            document.getElementById('audio-player').src = "about:blank"; // Para a música no final
+            document.getElementById('music-indicator').classList.add('hidden'); // Esconde o vinil
             
             const text = "Eles também não te esqueceram... ❤️";
             const box = document.getElementById('kpop-message');
@@ -239,12 +263,11 @@
                         document.getElementById('kpop-vid-container').classList.remove('hidden');
                         document.getElementById('vid-enhypen').src = "https://www.youtube.com/embed/8KA5mbn513Y?autoplay=1";
                         
-                        // TEXTÃO APARECE DEPOIS DE 18 SEGUNDOS DE VÍDEO
                         setTimeout(() => {
                             const finalMsg = document.getElementById('final-bye');
                             finalMsg.innerHTML = "Olhar para trás e ver tudo o que construímos nesses 3 anos me faz perceber que as melhores coisas da vida acontecem quando a gente menos espera. O que começou com um esbarrão bobo na escola se tornou a minha parte favorita do dia.<br><br>Ver você chegar aos 17 anos é um privilégio, e eu espero que esse novo ciclo te traga tanta luz quanto você traz para os meus dias. Que a gente continue descobrindo músicas novas, rindo de coisas sem sentido e criando memórias que a gente ainda vai guardar com carinho por muito tempo.<br><br>Aproveita cada segundo, Alinne. Você merece o mundo, mas hoje, espero que esse pequeno pedaço de código tenha conseguido te fazer sorrir. <span class='love-text'>EU TE AMO! ❤️</span>";
                             finalMsg.classList.remove('hidden');
-                        }, 18000); // 18 segundos
+                        }, 18000);
                     }, 1000);
                 }
             }, 100);
