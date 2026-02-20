@@ -8,141 +8,109 @@
         :root { --vermelho: #ff4d4d; --azul: #1a4d8c; }
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
+            font-family: 'Segoe UI', sans-serif; overflow: hidden;
             background: radial-gradient(circle, #2c3e50, #000);
         }
 
-        /* Morangos Gigantes e Lentos */
-        .strawberry {
-            position: absolute; font-size: 50px; pointer-events: none;
-            z-index: 5; animation: fall linear infinite; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5));
-        }
+        /* Morangos e Confetes */
+        .strawberry { position: absolute; font-size: 50px; pointer-events: none; z-index: 5; animation: fall linear infinite; }
+        .confetti { position: absolute; width: 8px; height: 8px; z-index: 199; animation: fall linear infinite; }
         @keyframes fall {
-            0% { transform: translateY(-20vh) translateX(0) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(-20vh) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
-            100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0.7; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0.7; }
         }
 
-        /* Confetes de Aniversário na tela inicial */
-        .confetti {
-            position: absolute; width: 10px; height: 10px; z-index: 199;
-            animation: fall linear infinite;
-        }
-
-        /* Molduras Polaroid */
+        /* Polaroids */
         .polaroid {
-            position: absolute; width: 120px; background: white;
-            padding: 10px 10px 30px 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            border-radius: 3px; z-index: 2; transform: rotate(var(--r));
-            transition: 0.5s ease;
+            position: absolute; width: 110px; background: white; padding: 8px 8px 25px 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6); z-index: 15; transform: rotate(var(--r));
         }
-        .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 50; }
-        .polaroid img { width: 100%; height: 120px; object-fit: cover; border: 1px solid #eee; }
+        .polaroid img { width: 100%; height: 110px; object-fit: cover; }
 
-        /* Tela de Início Ultra Decorada */
-        #drag-screen {
+        /* Telas */
+        #drag-screen, #transition-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, #000, #1a1a1a);
-            z-index: 200; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; color: white;
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            background: black; z-index: 200; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white; text-align: center;
         }
-        .bday-title {
-            font-size: 4rem; letter-spacing: 12px; margin: 0;
-            background: linear-gradient(to right, #ff4d4d, #ff9999, #ff4d4d);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255,77,77,0.8));
-            animation: glow 2s ease-in-out infinite;
-        }
-        @keyframes glow { 0%, 100% { filter: drop-shadow(0 0 5px #f00); } 50% { filter: drop-shadow(0 0 20px #f00); } }
-
-        /* Quiz Animado */
-        #quiz-section { 
-            animation: fadeIn 1s ease-out;
-            background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255,255,255,0.3);
-            box-shadow: 0 0 30px rgba(255,77,77,0.3);
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        #drag-screen { transition: transform 1s ease-in-out; }
         
-        .btn-option {
-            background: white; color: #333; border: none;
-            padding: 15px; border-radius: 15px; font-size: 17px;
-            margin: 12px 0; cursor: pointer; width: 100%; font-weight: bold;
-            box-shadow: 0 4px 0 #ccc; transition: 0.2s;
+        .card {
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            padding: 25px; border-radius: 25px; width: 85%; max-width: 350px;
+            z-index: 20; border: 1px solid rgba(255,255,255,0.2); text-align: center; color: white;
         }
-        .btn-option:active { transform: translateY(4px); box-shadow: none; }
 
-        /* Raspadinha */
-        #surprise-section { z-index: 20; position: relative; display: flex; flex-direction: column; align-items: center;}
-        #scratch-container {
-            position: relative; width: 280px; height: 380px;
-            border: 8px solid white; border-radius: 20px; overflow: hidden;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        .btn-option {
+            background: white; color: #333; border: none; padding: 15px;
+            border-radius: 12px; font-size: 16px; margin: 10px 0; width: 100%; font-weight: bold;
         }
-        canvas { position: absolute; top:0; left:0; z-index: 2; touch-action: none; cursor: crosshair; }
+
+        #scratch-container { position: relative; width: 260px; height: 360px; border: 6px solid white; border-radius: 15px; overflow: hidden; }
+        canvas { position: absolute; top:0; left:0; z-index: 2; touch-action: none; }
+        
         .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 1.5s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="drag-screen">
-        <div style="font-size: 60px;">🎈 🎁 🎂</div>
-        <h1 class="bday-title">ALINNE</h1>
-        <div style="font-size: 40px; margin: 20px;">✨ 🎊 🎉</div>
-        <div style="font-size: 50px; animation: bounce 2s infinite;">▲</div>
-        <p style="letter-spacing: 4px; font-weight: 300;">ARRRASTE PARA O PRESENTE</p>
+        <div style="font-size: 50px;">🎂 ✨ 🎈</div>
+        <h1 style="font-size: 3.5rem; letter-spacing: 10px; color: #ff4d4d;">ALINNE</h1>
+        <div style="font-size: 35px; margin: 15px;">🎁 🍓 🎉</div>
+        <div style="font-size: 40px; animation: bounce 2s infinite;">▲</div>
+        <p>ARRASTE PARA CIMA</p>
+    </div>
+
+    <div id="transition-screen" class="hidden">
+        <div id="counter-box">
+            <h2 id="days-number" style="font-size: 4rem; color: #ff4d4d; margin: 0;">0</h2>
+            <p style="font-size: 1.2rem;">dias desde o nosso esbarrão...</p>
+        </div>
+        <div id="phrases-box" class="hidden" style="padding: 20px;">
+            <p class="fade-in" style="font-size: 1.3rem;">Por cada risada e por cada grupo de K-pop... 🍓</p>
+            <p id="phrase-2" class="hidden fade-in" style="font-size: 1.3rem; margin-top: 20px;">Você transforma qualquer plano simples em algo incrível.</p>
+            <button id="btn-reveal" class="hidden btn-option" style="margin-top: 30px; width: auto; padding: 15px 30px;">Abrir meu Presente ✨</button>
+        </div>
     </div>
 
     <div id="main-content" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-        <div id="quiz-section" class="card hidden" style="padding: 30px; border-radius: 30px; width: 85%; max-width: 350px; text-align: center; color: white;">
-            <h2 id="question-text" style="font-size: 22px; margin-bottom: 20px;"></h2>
+        <div id="quiz-section" class="card hidden">
+            <h2 id="question-text"></h2>
             <div id="options-container"></div>
         </div>
 
         <div id="surprise-section" class="hidden">
-            <div class="polaroid" style="top: -80px; left: -120px; --r: -15deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220443966771270/IMG_20241104_144249.jpg?ex=69990e47&is=6997bcc7&hm=a6c8dd7459fc6349d7dbbe4d41cfc99f09dd1f0a1c15a0c9a83a3e5b255992e9&"></div>
-            <div class="polaroid" style="top: 180px; left: -130px; --r: 12deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220122263781488/Screenshot_2025-02-18-19-47-26-021_com.instagram.android2.jpg?ex=69990dfa&is=6997bc7a&hm=e31edae5c434b9b4cef17a2459b1e616b96a7fc1589531cc570a74bf0cd5f869&"></div>
-            <div class="polaroid" style="top: -70px; right: -120px; --r: 18deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220053091319890/IMG_20250403_150058.jpg?ex=69990dea&is=6997bc6a&hm=c5d2c1116ee361772b565a07bb795da78124a31ef4e26451a5fe261628049086&"></div>
-            <div class="polaroid" style="top: 190px; right: -130px; --r: -10deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220052172771430/IMG-20260205-WA0037.jpg?ex=69990dea&is=6997bc6a&hm=ccb4d881b7a0d82044f1f4f1152df64f559582172e7f99d169eedcc764468d27&"></div>
+            <div class="polaroid" style="top: -50px; left: -80px; --r: -12deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220443966771270/IMG_20241104_144249.jpg?ex=69990e47&is=6997bcc7&hm=a6c8dd7459fc6349d7dbbe4d41cfc99f09dd1f0a1c15a0c9a83a3e5b255992e9&"></div>
+            <div class="polaroid" style="top: 200px; left: -85px; --r: 8deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220122263781488/Screenshot_2025-02-18-19-47-26-021_com.instagram.android2.jpg?ex=69990dfa&is=6997bc7a&hm=e31edae5c434b9b4cef17a2459b1e616b96a7fc1589531cc570a74bf0cd5f869&"></div>
+            <div class="polaroid" style="top: -40px; right: -80px; --r: 15deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220053091319890/IMG_20250403_150058.jpg?ex=69990dea&is=6997bc6a&hm=c5d2c1116ee361772b565a07bb795da78124a31ef4e26451a5fe261628049086&"></div>
+            <div class="polaroid" style="top: 210px; right: -85px; --r: -10deg;"><img src="https://cdn.discordapp.com/attachments/1453229527739142285/1474220052172771430/IMG-20260205-WA0037.jpg?ex=69990dea&is=6997bc6a&hm=ccb4d881b7a0d82044f1f4f1152df64f559582172e7f99d169eedcc764468d27&"></div>
 
             <div id="scratch-container">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/6JG20Tt2DAQ?enablejsapi=1&autoplay=1&mute=1&playlist=6JG20Tt2DAQ&loop=1" frameborder="0"></iframe>
-                <canvas id="scratch-canvas" width="280" height="380"></canvas>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/6JG20Tt2DAQ?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=6JG20Tt2DAQ" frameborder="0"></iframe>
+                <canvas id="scratch-canvas" width="260" height="360"></canvas>
             </div>
-            <p style="color: white; font-weight: bold; margin-top: 20px; text-shadow: 0 0 10px red;">RASPE PARA O VÍDEO 🍓</p>
+            <p style="color: white; font-weight: bold; margin-top: 15px;">RASPE O VÍDEO 🍓</p>
         </div>
     </div>
 
     <iframe id="audio-player" width="0" height="0" src="https://www.youtube.com/embed/Vmjav3dZcNQ?enablejsapi=1" frameborder="0"></iframe>
 
     <script>
-        // Morangos lentos e grandes
-        function createStrawberry() {
-            const s = document.createElement('div');
-            s.className = 'strawberry';
-            s.innerHTML = '🍓';
-            s.style.left = Math.random() * 95 + 'vw';
-            s.style.animationDuration = (Math.random() * 5 + 7) + 's';
-            document.body.appendChild(s);
-            setTimeout(() => s.remove(), 12000);
+        function createItem(type) {
+            const item = document.createElement('div');
+            if(type === '🍓') { item.className = 'strawberry'; item.innerHTML = '🍓'; item.style.animationDuration = (Math.random() * 4 + 7) + 's'; }
+            else { item.className = 'confetti'; const colors=['#ff0','#f0f','#0ff','#f00','#fff']; item.style.background=colors[Math.floor(Math.random()*5)]; item.style.animationDuration=(Math.random()*3+2)+'s'; }
+            item.style.left = Math.random() * 95 + 'vw'; item.style.top = "-15vh";
+            document.body.appendChild(item);
+            setTimeout(() => item.remove(), 10000);
         }
-        setInterval(createStrawberry, 800);
+        setInterval(() => createItem('🍓'), 800);
+        setInterval(() => createItem('confetti'), 200);
 
-        // Confetes
-        function createConfetti() {
-            const colors = ['#ff0', '#f0f', '#0ff', '#f00', '#0f0'];
-            const c = document.createElement('div');
-            c.className = 'confetti';
-            c.style.background = colors[Math.floor(Math.random()*colors.length)];
-            c.style.left = Math.random() * 100 + 'vw';
-            c.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.getElementById('drag-screen').appendChild(c);
-            setTimeout(() => c.remove(), 5000);
-        }
-        setInterval(createConfetti, 100);
-
-        // Arrastar
         let startY;
         document.getElementById('drag-screen').addEventListener('touchstart', e => startY = e.touches[0].pageY);
         document.getElementById('drag-screen').addEventListener('touchmove', e => {
@@ -152,7 +120,6 @@
             }
         });
 
-        // Quiz
         const quizData = [
             { q: "Como começamos a nos falar?", options: ["Na escola", "Eu esbarrei em você sem querer", "Pelo Insta"], correct: 1 },
             { q: "Qual o melhor grupo de kpop que você me apresentou?", options: ["Katseye", "Enhypen", "Twice", "New Jeans"], correct: 3 },
@@ -166,43 +133,64 @@
             const container = document.getElementById('options-container');
             container.innerHTML = "";
             data.options.forEach((opt, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'btn-option';
-                btn.innerText = opt;
+                const btn = document.createElement('button'); btn.className = 'btn-option'; btn.innerText = opt;
                 btn.onclick = () => {
-                    if(index === data.correct) {
-                        currentQ++;
-                        if(currentQ < quizData.length) loadQuiz();
-                        else finishQuiz();
-                    } else { alert("🍓 Errou! Tenta de novo!"); }
+                    if(index === data.correct) { currentQ++; if(currentQ < quizData.length) loadQuiz(); else startTransition(); }
+                    else { alert("🍓 Errou! Tenta de novo!"); }
                 };
                 container.appendChild(btn);
             });
         }
         loadQuiz();
 
-        function finishQuiz() {
+        function startTransition() {
             document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('transition-screen').classList.remove('hidden');
+            
+            let count = 0;
+            const target = 1095;
+            const timer = setInterval(() => {
+                count += 15;
+                if(count >= target) {
+                    count = target;
+                    clearInterval(timer);
+                    showPhrases();
+                }
+                document.getElementById('days-number').innerText = count;
+            }, 20);
+        }
+
+        function showPhrases() {
+            setTimeout(() => {
+                document.getElementById('phrases-box').classList.remove('hidden');
+                setTimeout(() => { document.getElementById('phrase-2').classList.remove('hidden'); 
+                setTimeout(() => { document.getElementById('btn-reveal').classList.remove('hidden'); }, 1500);
+                }, 1500);
+            }, 1000);
+        }
+
+        document.getElementById('btn-reveal').onclick = () => {
+            document.getElementById('transition-screen').classList.add('hidden');
             document.getElementById('surprise-section').classList.remove('hidden');
             document.getElementById('audio-player').src += "&autoplay=1";
-            
+            initScratch();
+        };
+
+        function initScratch() {
             const canvas = document.getElementById('scratch-canvas');
             const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#ff4d4d';
-            ctx.fillRect(0,0,280,380);
-            ctx.fillStyle = 'white';
-            ctx.font = 'bold 20px sans-serif';
-            ctx.fillText('RASPE O PRESENTE 🍓', 40, 190);
+            ctx.fillStyle = '#ff4d4d'; ctx.fillRect(0,0,260,360);
+            ctx.fillStyle = 'white'; ctx.font = 'bold 18px sans-serif'; ctx.fillText('RASPE O PRESENTE 🍓', 40, 180);
 
             let isDrawing = false;
-            function scratch(e) {
+            const scratch = (e) => {
                 if(!isDrawing) return;
                 const rect = canvas.getBoundingClientRect();
                 const x = (e.clientX || e.touches[0].clientX) - rect.left;
                 const y = (e.clientY || e.touches[0].clientY) - rect.top;
                 ctx.globalCompositeOperation = 'destination-out';
                 ctx.beginPath(); ctx.arc(x, y, 40, 0, Math.PI * 2); ctx.fill();
-            }
+            };
             canvas.addEventListener('touchstart', () => isDrawing = true);
             canvas.addEventListener('touchend', () => isDrawing = false);
             canvas.addEventListener('touchmove', scratch);
